@@ -45,13 +45,14 @@ public:
     void RenderFrame(const GPU& gpu, GLRenderer& renderer) noexcept;
     void BindOutputTexture(int buf);
 private:
-    GLCompositor(std::array<GLuint, 3> CompShader) noexcept;
-    int Scale = 0;
-    int ScreenH = 0, ScreenW = 0;
+    GLCompositor(GLuint CompShader) noexcept;
 
-    std::array<GLuint, 3> CompShader {};
-    GLuint CompScaleLoc = 0;
-    GLuint Comp3DXPosLoc = 0;
+    int Scale;
+    int ScreenH, ScreenW;
+
+    GLuint CompShader;
+    GLuint CompScaleLoc;
+    GLuint Comp3DXPosLoc;
 
     GLuint CompVertexBufferID = 0;
     GLuint CompVertexArrayID = 0;
