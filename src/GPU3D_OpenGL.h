@@ -51,6 +51,8 @@ public:
     [[nodiscard]] const GLCompositor& GetCompositor() const noexcept { return CurGLCompositor; }
     GLCompositor& GetCompositor() noexcept { return CurGLCompositor; }
 
+    void PrepareCaptureFrame() override;
+
     static std::unique_ptr<GLRenderer> New() noexcept;
 private:
     // Used by New()
