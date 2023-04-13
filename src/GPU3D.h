@@ -350,6 +350,8 @@ public:
     virtual u32* GetLine(int line) = 0;
     virtual void Blit(const GPU& gpu) {};
     virtual void PrepareCaptureFrame() {}
+
+    virtual void SetupAccelFrame() {}
 protected:
     Renderer3D(bool Accelerated);
 };

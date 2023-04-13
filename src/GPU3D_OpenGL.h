@@ -44,7 +44,7 @@ public:
     void Stop(const GPU& gpu) override;
     u32* GetLine(int line) override;
 
-    void SetupAccelFrame();
+    void SetupAccelFrame() override;
     void PrepareCaptureFrame() override;
     void Blit(const GPU& gpu) override;
 
