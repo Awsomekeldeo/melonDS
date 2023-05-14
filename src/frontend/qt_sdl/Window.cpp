@@ -710,7 +710,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::createScreenPanel()
 {
-    hasOGL = (Config::ScreenUseGL != 0) || (Config::_3DRenderer != 0);
+    hasOGL = (Config::ScreenUseGL != 0) || (Config::_3DRenderer != GPU::renderer3D_Software);
 
     if (hasOGL)
     {

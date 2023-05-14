@@ -341,11 +341,7 @@ int main(int argc, char** argv)
 
 #define SANITIZE(var, min, max)  { var = std::clamp(var, min, max); }
     SANITIZE(Config::ConsoleType, 0, 1);
-#ifdef OGLRENDERER_ENABLED
-    SANITIZE(Config::_3DRenderer, 0, 1); // 0 is the software renderer, 1 is the OpenGL renderer
-#else
-    SANITIZE(Config::_3DRenderer, 0, 0);
-#endif
+    SANITIZE(Config::_3DRenderer, (int)GPU::renderer3D_Software, (int)GPU::renderer3D_Max);
     SANITIZE(Config::ScreenVSyncInterval, 1, 20);
     SANITIZE(Config::GL_ScaleFactor, 1, 16);
     SANITIZE(Config::AudioInterp, 0, 4);

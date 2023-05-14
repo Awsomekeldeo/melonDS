@@ -313,6 +313,10 @@ void EmuThread::run()
     autoScreenSizing = 0;
 
     videoSettingsDirty = false;
+    videoSettings.Soft_Threaded = Config::Threaded3D != 0;
+    videoSettings.GL_ScaleFactor = Config::GL_ScaleFactor;
+    videoSettings.GL_BetterPolygons = Config::GL_BetterPolygons;
+    videoSettings.GL_HiresCoordinates = Config::GL_HiresCoordinates;
 
     if (mainWindow->hasOGL)
     {
@@ -448,12 +452,17 @@ void EmuThread::run()
                 else
 #endif
                 {
-                    videoRenderer = 0;
+                    videoRenderer = GPU::renderer3D_Software;
                 }
 
-                videoRenderer = screenGL ? Config::_3DRenderer : 0;
+                videoRenderer = oglContext ? Config::_3DRenderer : GPU::renderer3D_Software;
 
                 videoSettingsDirty = false;
+
+                videoSettings.Soft_Threaded = Config::Threaded3D != 0;
+                videoSettings.GL_ScaleFactor = Config::GL_ScaleFactor;
+                videoSettings.GL_BetterPolygons = Config::GL_BetterPolygons;
+                videoSettings.GL_HiresCoordinates = Config::GL_HiresCoordinates;
 
                 if (videoRenderer == 0)
                 { // If we're using the software renderer...
