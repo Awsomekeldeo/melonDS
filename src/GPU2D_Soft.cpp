@@ -18,7 +18,11 @@
 
 #include "GPU2D_Soft.h"
 #include "GPU.h"
+<<<<<<< HEAD
 #include "GPU3D_OpenGL.h"
+=======
+#include "GPU3D.h"
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
 namespace melonDS
 {
@@ -308,7 +312,11 @@ void SoftRenderer::VBlankEnd(Unit* unitA, Unit* unitB)
     {
         if ((unitA->CaptureCnt & (1<<31)) && (((unitA->CaptureCnt >> 29) & 0x3) != 1))
         {
+<<<<<<< HEAD
             renderer3d.PrepareCaptureFrame();
+=======
+            GPU3D::CurrentRenderer.get()->PrepareCaptureFrame();
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
         }
     }
 #endif

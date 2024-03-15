@@ -1283,11 +1283,14 @@ void GLRenderer::RenderFrame(GPU& gpu)
 
         RenderSceneChunk(gpu.GPU3D, 0, 192);
     }
+<<<<<<< HEAD
 }
 
 void GLRenderer::Stop(const GPU& gpu)
 {
     CurGLCompositor.Stop(gpu);
+=======
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 }
 
 void GLRenderer::PrepareCaptureFrame()

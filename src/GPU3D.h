@@ -353,10 +353,30 @@ public:
 
     virtual void SetupAccelFrame() {}
 
+<<<<<<< HEAD
+=======
+    virtual void RenderFrame() = 0;
+    virtual void RestartFrame() {};
+    virtual u32* GetLine(int line) = 0;
+
+    virtual void SetupAccelFrame() {}
+    virtual void PrepareCaptureFrame() {}
+
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 protected:
     Renderer3D(bool Accelerated);
 };
 
 }
 
+<<<<<<< HEAD
+=======
+#include "GPU3D_Soft.h"
+
+#ifdef OGLRENDERER_ENABLED
+#include "GPU3D_OpenGL.h"
+#include "GPU3D_Compute.h"
+#endif
+
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 #endif

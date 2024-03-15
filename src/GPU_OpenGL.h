@@ -45,7 +45,11 @@ public:
     void Stop(const GPU& gpu) noexcept;
     void RenderFrame(const GPU& gpu, Renderer3D& renderer) noexcept;
     void BindOutputTexture(int buf);
+<<<<<<< HEAD
     
+=======
+private:
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
     GLCompositor(GLuint CompShader) noexcept;
 
     int Scale;

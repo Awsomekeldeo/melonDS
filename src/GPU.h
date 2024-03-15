@@ -246,8 +246,15 @@ public:
         if (mask & (1<<5)) ret |= *(T*)&VRAM_F[addr & 0x3FFF];
         if (mask & (1<<6)) ret |= *(T*)&VRAM_G[addr & 0x3FFF];
 
+<<<<<<< HEAD
         return ret;
     }
+=======
+    int GL_ScaleFactor;
+    bool GL_BetterPolygons;
+    bool GL_HiresCoordinates;
+};
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
     template<typename T>
     void WriteVRAM_ABG(u32 addr, T val)
@@ -292,11 +299,27 @@ public:
     }
 
 
+<<<<<<< HEAD
     template<typename T>
     T ReadVRAM_AOBJ(u32 addr) const noexcept
     {
         u8* ptr = VRAMPtr_AOBJ[(addr >> 14) & 0xF];
         if (ptr) return *(T*)&ptr[addr & 0x3FFF];
+=======
+enum
+{
+    renderer3D_Software = 0,
+#ifdef OGLRENDERER_ENABLED
+    renderer3D_OpenGL,
+    renderer3D_OpenGLCompute,
+#endif
+    renderer3D_Max,
+};
+
+void InitRenderer(int renderer);
+void DeInitRenderer();
+void ResetRenderer();
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
         T ret = 0;
         u32 mask = VRAMMap_AOBJ[(addr >> 14) & 0xF];

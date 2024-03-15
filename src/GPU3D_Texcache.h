@@ -6,12 +6,19 @@
 
 #include <assert.h>
 #include <unordered_map>
+<<<<<<< HEAD
 #include "OpenGLSupport.h"
+=======
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
 #define XXH_STATIC_LINKING_ONLY
 #include "xxhash/xxhash.h"
 
+<<<<<<< HEAD
 namespace melonDS 
+=======
+namespace GPU3D
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 {
 
 inline u32 TextureWidth(u32 texparam)
@@ -46,6 +53,7 @@ class Texcache
 public:
     Texcache(const TexLoaderT& texloader)
         : TexLoader(texloader) // probably better if this would be a move constructor???
+<<<<<<< HEAD
     {
     }
 
@@ -56,6 +64,17 @@ public:
 
         bool textureChanged = gpu.MakeVRAMFlat_TextureCoherent(textureDirty);
         bool texPalChanged = gpu.MakeVRAMFlat_TexPalCoherent(texPalDirty);
+=======
+    {}
+
+    bool Update()
+    {
+        auto textureDirty = GPU::VRAMDirty_Texture.DeriveState(GPU::VRAMMap_Texture);
+        auto texPalDirty = GPU::VRAMDirty_TexPal.DeriveState(GPU::VRAMMap_TexPal);
+
+        bool textureChanged = GPU::MakeVRAMFlat_TextureCoherent(textureDirty);
+        bool texPalChanged = GPU::MakeVRAMFlat_TexPalCoherent(texPalDirty);
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
         if (textureChanged || texPalChanged)
         {
@@ -67,8 +86,13 @@ public:
                 {
                     for (u32 i = 0; i < 2; i++)
                     {
+<<<<<<< HEAD
                         u32 startBit = entry.TextureRAMStart[i] / VRAMDirtyGranularity;
                         u32 bitsCount = ((entry.TextureRAMStart[i] + entry.TextureRAMSize[i] + VRAMDirtyGranularity - 1) / VRAMDirtyGranularity) - startBit;
+=======
+                        u32 startBit = entry.TextureRAMStart[i] / GPU::VRAMDirtyGranularity;
+                        u32 bitsCount = ((entry.TextureRAMStart[i] + entry.TextureRAMSize[i] + GPU::VRAMDirtyGranularity - 1) / GPU::VRAMDirtyGranularity) - startBit;
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
                         u32 startEntry = startBit >> 6;
                         u64 entriesCount = ((startBit + bitsCount + 0x3F) >> 6) - startEntry;
@@ -76,7 +100,11 @@ public:
                         {
                             if (GetRangedBitMask(j, startBit, bitsCount) & textureDirty.Data[j])
                             {
+<<<<<<< HEAD
                                 u64 newTexHash = XXH3_64bits(&gpu.VRAMFlat_Texture[entry.TextureRAMStart[i]], entry.TextureRAMSize[i]);
+=======
+                                u64 newTexHash = XXH3_64bits(&GPU::VRAMFlat_Texture[entry.TextureRAMStart[i]], entry.TextureRAMSize[i]);
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
                                 if (newTexHash != entry.TextureHash[i])
                                     goto invalidate;
@@ -87,8 +115,13 @@ public:
 
                 if (texPalChanged && entry.TexPalSize > 0)
                 {
+<<<<<<< HEAD
                     u32 startBit = entry.TexPalStart / VRAMDirtyGranularity;
                     u32 bitsCount = ((entry.TexPalStart + entry.TexPalSize + VRAMDirtyGranularity - 1) / VRAMDirtyGranularity) - startBit;
+=======
+                    u32 startBit = entry.TexPalStart / GPU::VRAMDirtyGranularity;
+                    u32 bitsCount = ((entry.TexPalStart + entry.TexPalSize + GPU::VRAMDirtyGranularity - 1) / GPU::VRAMDirtyGranularity) - startBit;
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
                     u32 startEntry = startBit >> 6;
                     u64 entriesCount = ((startBit + bitsCount + 0x3F) >> 6) - startEntry;
@@ -96,7 +129,11 @@ public:
                     {
                         if (GetRangedBitMask(j, startBit, bitsCount) & texPalDirty.Data[j])
                         {
+<<<<<<< HEAD
                             u64 newPalHash = XXH3_64bits(&gpu.VRAMFlat_TexPal[entry.TexPalStart], entry.TexPalSize);
+=======
+                            u64 newPalHash = XXH3_64bits(&GPU::VRAMFlat_TexPal[entry.TexPalStart], entry.TexPalSize);
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
                             if (newPalHash != entry.TexPalHash)
                                 goto invalidate;
                         }
@@ -119,7 +156,11 @@ public:
         return false;
     }
 
+<<<<<<< HEAD
     void GetTexture(u32 texParam, u32 palBase, TexHandleT& textureHandle, u32& layer, u32*& helper, GPU& gpu)
+=======
+    void GetTexture(u32 texParam, u32 palBase, TexHandleT& textureHandle, u32& layer, u32*& helper)
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
     {
         // remove sampling and texcoord gen params
         texParam &= ~0xC00F0000;
@@ -164,6 +205,7 @@ public:
         {
             entry.TextureRAMSize[0] = width*height*2;
 
+<<<<<<< HEAD
             ConvertBitmapTexture<outputFmt_RGB6A5>(width, height, DecodingBuffer, &gpu.VRAMFlat_Texture[addr]);
         }
         else if (fmt == 5)
@@ -175,6 +217,19 @@ public:
             u8* texAuxData = &gpu.VRAMFlat_Texture[slot1addr];
 
             u16* palData = (u16*)(gpu.VRAMFlat_TexPal + palBase*16);
+=======
+            ConvertBitmapTexture<outputFmt_RGB6A5>(width, height, DecodingBuffer, &GPU::VRAMFlat_Texture[addr]);
+        }
+        else if (fmt == 5)
+        {
+            u8* texData = &GPU::VRAMFlat_Texture[addr];
+            u32 slot1addr = 0x20000 + ((addr & 0x1FFFC) >> 1);
+            if (addr >= 0x40000)
+                slot1addr += 0x10000;
+            u8* texAuxData = &GPU::VRAMFlat_Texture[slot1addr];
+
+            u16* palData = (u16*)(GPU::VRAMFlat_TexPal + palBase*16);
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
             entry.TextureRAMSize[0] = width*height/16*4;
             entry.TextureRAMStart[1] = slot1addr;
@@ -205,8 +260,13 @@ public:
             entry.TexPalStart = palAddr;
             entry.TexPalSize = numPalEntries*2;
 
+<<<<<<< HEAD
             u8* texData = &gpu.VRAMFlat_Texture[addr];
             u16* palData = (u16*)(gpu.VRAMFlat_TexPal + palAddr);
+=======
+            u8* texData = &GPU::VRAMFlat_Texture[addr];
+            u16* palData = (u16*)(GPU::VRAMFlat_TexPal + palAddr);
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
             //assert(entry.TexPalStart+entry.TexPalSize <= 128*1024*1024);
 
@@ -225,10 +285,17 @@ public:
         for (int i = 0; i < 2; i++)
         {
             if (entry.TextureRAMSize[i])
+<<<<<<< HEAD
                 entry.TextureHash[i] = XXH3_64bits(&gpu.VRAMFlat_Texture[entry.TextureRAMStart[i]], entry.TextureRAMSize[i]);
         }
         if (entry.TexPalSize)
             entry.TexPalHash = XXH3_64bits(&gpu.VRAMFlat_TexPal[entry.TexPalStart], entry.TexPalSize);
+=======
+                entry.TextureHash[i] = XXH3_64bits(&GPU::VRAMFlat_Texture[entry.TextureRAMStart[i]], entry.TextureRAMSize[i]);
+        }
+        if (entry.TexPalSize)
+            entry.TexPalHash = XXH3_64bits(&GPU::VRAMFlat_TexPal[entry.TexPalStart], entry.TexPalSize);
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
         auto& texArrays = TexArrays[widthLog2][heightLog2];
         auto& freeTextures = FreeTextures[widthLog2][heightLog2];

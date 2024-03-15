@@ -26,9 +26,12 @@
 #define XXH_STATIC_LINKING_ONLY
 #include "xxhash/xxhash.h"
 
+<<<<<<< HEAD
 namespace melonDS
 {
 
+=======
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 using Platform::Log;
 using Platform::LogLevel;
 
@@ -145,6 +148,7 @@ void SaveShaderCache()
         Log(LogLevel::Error, "Could not open or create shader cache file\n");
         return;
     }
+<<<<<<< HEAD
 
     int written = 3;
     u32 magic = ShaderCacheMagic, version = ShaderCacheVersion, numPrograms = ShaderCache.size();
@@ -189,6 +193,52 @@ bool CompilerShader(GLuint& id, const std::string& source, const std::string& na
 {
     int res;
 
+=======
+
+    int written = 3;
+    u32 magic = ShaderCacheMagic, version = ShaderCacheVersion, numPrograms = ShaderCache.size();
+    written -= Platform::FileWrite(&magic, 4, 1, file);
+    written -= Platform::FileWrite(&version, 4, 1, file);
+    written -= Platform::FileWrite(&numPrograms, 4, 1, file);
+
+    if (written != 0)
+    {
+        Log(LogLevel::Error, "Could not write shader cache header\n");
+        goto writeError;
+    }
+
+    Platform::FileSeek(file, 0, Platform::FileSeekOrigin::End);
+
+    printf("new shaders %d\n", NewShaders.size());
+
+    for (u64 newShader : NewShaders)
+    {
+        int error = 4;
+        auto it = ShaderCache.find(newShader);
+
+        error -= Platform::FileWrite(&it->first, 8, 1, file);
+        error -= Platform::FileWrite(&it->second.Length, 4, 1, file);
+        error -= Platform::FileWrite(&it->second.BinaryFormat, 4, 1, file);
+        error -= Platform::FileWrite(it->second.Data, it->second.Length, 1, file);
+
+        if (error != 0)
+        {
+            Log(LogLevel::Error, "Could not insert new shader cache entry\n");
+            goto writeError;
+        }
+    }
+
+writeError:
+    Platform::CloseFile(file);
+
+    NewShaders.clear();
+}
+
+bool CompilerShader(GLuint& id, const std::string& source, const std::string& name, const std::string& type)
+{
+    int res;
+
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
     if (!glCreateShader)
     {
         Log(LogLevel::Error, "OpenGL: Cannot build shader program, OpenGL hasn't been loaded\n");
@@ -338,11 +388,19 @@ bool CompileVertexFragmentProgram(GLuint& result,
     for (const AttributeTarget& target : vertexInAttrs)
     {
         glBindAttribLocation(result, target.Location, target.Name);
+<<<<<<< HEAD
     }
     for (const AttributeTarget& target : fragmentOutAttrs)
     {
         glBindFragDataLocation(result, target.Location, target.Name);
     }
+=======
+    }
+    for (const AttributeTarget& target : fragmentOutAttrs)
+    {
+        glBindFragDataLocation(result, target.Location, target.Name);
+    }
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
     linkingSucess = LinkProgram(result, shaders, 2);
 

@@ -23,7 +23,11 @@
 #include "ARMJIT.h"
 
 #include "GPU2D_Soft.h"
+<<<<<<< HEAD
 #include "GPU3D_Soft.h"
+=======
+#include "GPU3D.h"
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
 namespace melonDS
 {
@@ -294,8 +298,34 @@ void GPU::AssignFramebuffers() noexcept
 
 void GPU::SetRenderer3D(std::unique_ptr<Renderer3D>&& renderer) noexcept
 {
+<<<<<<< HEAD
     if (renderer == nullptr)
         GPU3D.SetCurrentRenderer(std::make_unique<SoftRenderer>());
+=======
+#ifdef OGLRENDERER_ENABLED
+    if (renderer != renderer3D_Software)
+    {
+        CurGLCompositor = GLCompositor::New();
+        // Create opengl renderer
+        if (!CurGLCompositor)
+        {
+            // Fallback on software renderer
+            renderer = 0;
+            GPU3D::CurrentRenderer = std::make_unique<GPU3D::SoftRenderer>();
+        }
+        if (renderer == renderer3D_OpenGL)
+            GPU3D::CurrentRenderer = GPU3D::GLRenderer::New();
+        else if (renderer == renderer3D_OpenGLCompute)
+            GPU3D::CurrentRenderer = GPU3D::ComputeRenderer::New();
+        if (!GPU3D::CurrentRenderer)
+        {
+            // Fallback on software renderer
+            CurGLCompositor.reset();
+            renderer = 0;
+            GPU3D::CurrentRenderer = std::make_unique<GPU3D::SoftRenderer>();
+        }
+    }
+>>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
     else
         GPU3D.SetCurrentRenderer(std::move(renderer));
 
