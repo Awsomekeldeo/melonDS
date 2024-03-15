@@ -25,6 +25,19 @@
 #include "GPU3D.h"
 #include "NonStupidBitfield.h"
 
+namespace GPU 
+{
+    enum
+    {
+        renderer3D_Software = 0,
+    #ifdef OGLRENDERER_ENABLED
+        renderer3D_OpenGL,
+        renderer3D_OpenGLCompute,
+    #endif
+        renderer3D_Max,
+    };
+}
+
 namespace melonDS
 {
 class GPU3D;

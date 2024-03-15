@@ -19,6 +19,7 @@
 #pragma once
 
 #include "OpenGLSupport.h"
+#include "GPU3D.h"
 
 #include <array>
 #include <optional>
@@ -42,9 +43,9 @@ public:
     [[nodiscard]] int GetScaleFactor() const noexcept { return Scale; }
 
     void Stop(const GPU& gpu) noexcept;
-    void RenderFrame(const GPU& gpu, GLRenderer& renderer) noexcept;
+    void RenderFrame(const GPU& gpu, Renderer3D& renderer) noexcept;
     void BindOutputTexture(int buf);
-private:
+    
     GLCompositor(GLuint CompShader) noexcept;
 
     int Scale;

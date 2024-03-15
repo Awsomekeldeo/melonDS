@@ -52,6 +52,7 @@
 #include "DSi_I2C.h"
 #include "GPU3D_Soft.h"
 #include "GPU3D_OpenGL.h"
+#include "GPU3D_Compute.h"
 
 #include "Savestate.h"
 
@@ -313,10 +314,6 @@ void EmuThread::run()
     autoScreenSizing = 0;
 
     videoSettingsDirty = false;
-    videoSettings.Soft_Threaded = Config::Threaded3D != 0;
-    videoSettings.GL_ScaleFactor = Config::GL_ScaleFactor;
-    videoSettings.GL_BetterPolygons = Config::GL_BetterPolygons;
-    videoSettings.GL_HiresCoordinates = Config::GL_HiresCoordinates;
 
     if (mainWindow->hasOGL)
     {
@@ -334,9 +331,15 @@ void EmuThread::run()
     { // If we're using the software renderer...
         NDS->GPU.SetRenderer3D(std::make_unique<SoftRenderer>(Config::Threaded3D != 0));
     }
+    else if (videoRenderer == GPU::renderer3D_OpenGLCompute)
+    {
+        auto computerenderer = melonDS::ComputeRenderer::New();
+        computerenderer->SetRenderSettings(Config::GL_BetterPolygons, Config::GL_ScaleFactor, Config::GL_HiresCoordinates);
+        NDS->GPU.SetRenderer3D(std::move(computerenderer));
+    }
     else
     {
-        auto glrenderer =  melonDS::GLRenderer::New();
+        auto glrenderer = melonDS::GLRenderer::New();
         glrenderer->SetRenderSettings(Config::GL_BetterPolygons, Config::GL_ScaleFactor);
         NDS->GPU.SetRenderer3D(std::move(glrenderer));
     }
@@ -455,18 +458,19 @@ void EmuThread::run()
                     videoRenderer = GPU::renderer3D_Software;
                 }
 
-                videoRenderer = oglContext ? Config::_3DRenderer : GPU::renderer3D_Software;
+                videoRenderer = screenGL ? Config::_3DRenderer : GPU::renderer3D_Software;
 
                 videoSettingsDirty = false;
-
-                videoSettings.Soft_Threaded = Config::Threaded3D != 0;
-                videoSettings.GL_ScaleFactor = Config::GL_ScaleFactor;
-                videoSettings.GL_BetterPolygons = Config::GL_BetterPolygons;
-                videoSettings.GL_HiresCoordinates = Config::GL_HiresCoordinates;
 
                 if (videoRenderer == 0)
                 { // If we're using the software renderer...
                     NDS->GPU.SetRenderer3D(std::make_unique<SoftRenderer>(Config::Threaded3D != 0));
+                }
+                else if (videoRenderer == GPU::renderer3D_OpenGLCompute) 
+                {
+                    auto computerenderer = melonDS::ComputeRenderer::New();
+                    computerenderer->SetRenderSettings(Config::GL_BetterPolygons, Config::GL_ScaleFactor, Config::GL_HiresCoordinates);
+                    NDS->GPU.SetRenderer3D(std::move(computerenderer));
                 }
                 else
                 {

@@ -352,7 +352,6 @@ public:
     virtual void PrepareCaptureFrame() {}
 
     virtual void SetupAccelFrame() {}
-    virtual void PrepareCaptureFrame() {}
 
 protected:
     Renderer3D(bool Accelerated);

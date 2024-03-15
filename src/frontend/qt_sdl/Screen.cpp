@@ -768,19 +768,19 @@ void ScreenPanelGL::initOpenGL()
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 192, 256, 2, GL_RGBA, GL_UNSIGNED_BYTE, zeroData);
 
 
-    OpenGL::CompileVertexFragmentProgram(Shader,
+    OpenGL::CompileVertexFragmentProgram(osdShader,
         kScreenVS_OSD, kScreenFS_OSD,
         "OSDShader",
         {{"vPosition", 0}},
         {{"oColor", 0}});
 
-    glUseProgram(Shader);
-    glUniform1i(glGetUniformLocation(Shader, "OSDTex"), 0);
+    glUseProgram(osdShader);
+    glUniform1i(glGetUniformLocation(osdShader, "OSDTex"), 0);
 
-    uScreenSize = glGetUniformLocation(Shader, "uScreenSize");
-    uOSDPos = glGetUniformLocation(Shader, "uOSDPos");
-    uOSDSize = glGetUniformLocation(Shader, "uOSDSize");
-    uScaleFactor = glGetUniformLocation(Shader, "uScaleFactor");
+    osdScreenSizeULoc = glGetUniformLocation(osdShader, "uScreenSize");
+    osdPosULoc = glGetUniformLocation(osdShader, "uOSDPos");
+    osdSizeULoc = glGetUniformLocation(osdShader, "uOSDSize");
+    osdScaleFactorULoc = glGetUniformLocation(osdShader, "uScaleFactor");
 
     const float osdvertices[6*2] =
     {
@@ -882,7 +882,7 @@ void ScreenPanelGL::drawScreenGL()
 
     glViewport(0, 0, w, h);
 
-    glUseProgram(screenShaderProgram[2]);
+    glUseProgram(screenShaderProgram);
     glUniform2f(screenShaderScreenSizeULoc, w / factor, h / factor);
 
     int frontbuf = emuThread->FrontBuffer;
@@ -933,7 +933,7 @@ void ScreenPanelGL::drawScreenGL()
 
         u32 y = kOSDMargin;
 
-        glUseProgram(osdShader[2]);
+        glUseProgram(osdShader);
 
         glUniform2f(osdScreenSizeULoc, w, h);
         glUniform1f(osdScaleFactorULoc, factor);

@@ -22,6 +22,7 @@
 #include <memory>
 
 #include "GPU3D.h"
+#include "GPU_OpenGL.h"
 
 #include "OpenGLSupport.h"
 
@@ -29,7 +30,7 @@
 
 #include "NonStupidBitfield.h"
 
-namespace GPU3D
+namespace melonDS
 {
 
 class ComputeRenderer : public Renderer3D
@@ -38,20 +39,26 @@ public:
     static std::unique_ptr<ComputeRenderer> New();
     ~ComputeRenderer() override;
 
-    void Reset() override;
+    void Reset(GPU& gpu) override;
 
-    void SetRenderSettings(GPU::RenderSettings& settings) override;
+    void SetRenderSettings(bool betterPolygons, int scale, bool hiresCoords);
 
-    void VCount144() override;
+    void VCount144(GPU& gpu) override;
 
-    void RenderFrame() override;
-    void RestartFrame() override;
+    void RenderFrame(GPU& gpu) override;
+    void RestartFrame(GPU& gpu) override;
     u32* GetLine(int line) override;
-
+    void Blit(const GPU& gpu) override;
     void SetupAccelFrame() override;
     void PrepareCaptureFrame() override;
+
+    [[nodiscard]] const GLCompositor& GetCompositor() const noexcept { return CurGLCompositor; }
+    GLCompositor& GetCompositor() noexcept { return CurGLCompositor; }
+
 private:
-    ComputeRenderer();
+    ComputeRenderer(GLCompositor&& compositor) noexcept;
+
+    GLCompositor CurGLCompositor;
 
     GLuint ShaderInterpXSpans[2];
     GLuint ShaderBinCombined;
