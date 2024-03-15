@@ -1,10 +1,6 @@
 #include "GPU3D_Texcache.h"
 
-<<<<<<< HEAD
 namespace melonDS
-=======
-namespace GPU3D
->>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 {
 
 inline u16 ColorAvg(u16 color0, u16 color1)

@@ -51,11 +51,6 @@ public:
     [[nodiscard]] const GLCompositor& GetCompositor() const noexcept { return CurGLCompositor; }
     GLCompositor& GetCompositor() noexcept { return CurGLCompositor; }
 
-<<<<<<< HEAD
-=======
-    void SetupAccelFrame() override;
-    void PrepareCaptureFrame() override;
->>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
     static std::unique_ptr<GLRenderer> New() noexcept;
 private:

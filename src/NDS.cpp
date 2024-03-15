@@ -34,16 +34,7 @@
 #include "AREngine.h"
 #include "Platform.h"
 #include "FreeBIOS.h"
-<<<<<<< HEAD
 #include "Args.h"
-=======
-#include "GPU3D.h"
-
-#ifdef JIT_ENABLED
-#include "ARMJIT.h"
-#include "ARMJIT_Memory.h"
-#endif
->>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
 #include "DSi.h"
 #include "DSi_SPI_TSC.h"

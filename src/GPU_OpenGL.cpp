@@ -43,15 +43,9 @@ std::optional<GLCompositor> GLCompositor::New() noexcept
             "CompositorShader",
             {{"vPosition", 0}, {"vTexcoord", 1}},
             {{"oColor", 0}}))
-<<<<<<< HEAD
         return std::nullopt;
 
     return { GLCompositor(CompShader) };
-=======
-        return nullptr;
-
-    return std::unique_ptr<GLCompositor>(new GLCompositor(CompShader));
->>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 }
 
 GLCompositor::GLCompositor(GLuint compShader) noexcept : CompShader(compShader)
@@ -247,11 +241,7 @@ void GLCompositor::Stop(const GPU& gpu) noexcept
 
 void GLCompositor::RenderFrame(const GPU& gpu, Renderer3D& renderer) noexcept
 {
-<<<<<<< HEAD
     int backbuf = gpu.FrontBuffer ^ 1;
-=======
-    int backbuf = GPU::FrontBuffer ^ 1;
->>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
     glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, CompScreenOutputFB[backbuf]);
 
@@ -274,7 +264,6 @@ void GLCompositor::RenderFrame(const GPU& gpu, Renderer3D& renderer) noexcept
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, CompScreenInputTex);
 
-<<<<<<< HEAD
     if (gpu.Framebuffer[backbuf][0] && gpu.Framebuffer[backbuf][1])
     {
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 256*3 + 1, 192, GL_RGBA_INTEGER,
@@ -285,18 +274,6 @@ void GLCompositor::RenderFrame(const GPU& gpu, Renderer3D& renderer) noexcept
 
     glActiveTexture(GL_TEXTURE1);
     renderer.SetupAccelFrame();
-=======
-    if (GPU::Framebuffer[backbuf][0] && GPU::Framebuffer[backbuf][1])
-    {
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 256*3 + 1, 192, GL_RGBA_INTEGER,
-                        GL_UNSIGNED_BYTE, GPU::Framebuffer[backbuf][0]);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 192, 256*3 + 1, 192, GL_RGBA_INTEGER,
-                        GL_UNSIGNED_BYTE, GPU::Framebuffer[backbuf][1]);
-    }
-
-    glActiveTexture(GL_TEXTURE1);
-    GPU3D::CurrentRenderer->SetupAccelFrame();
->>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 
     glBindBuffer(GL_ARRAY_BUFFER, CompVertexBufferID);
     glBindVertexArray(CompVertexArrayID);

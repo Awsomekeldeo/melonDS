@@ -4,11 +4,7 @@
 #include "GPU3D_Texcache.h"
 #include "OpenGLSupport.h"
 
-<<<<<<< HEAD
 namespace melonDS
-=======
-namespace GPU3D
->>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 {
 
 template <typename, typename>

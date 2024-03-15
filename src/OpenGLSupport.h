@@ -44,25 +44,6 @@ bool CompileVertexFragmentProgram(GLuint& result,
     const std::initializer_list<AttributeTarget>& vertexInAttrs,
     const std::initializer_list<AttributeTarget>& fragmentOutAttrs);
 
-<<<<<<< HEAD
-=======
-void LoadShaderCache();
-void SaveShaderCache();
-
-struct AttributeTarget
-{
-    const char* Name;
-    u32 Location;
-};
-
-
-bool CompileVertexFragmentProgram(GLuint& result,
-    const std::string& vs, const std::string& fs,
-    const std::string& name,
-    const std::initializer_list<AttributeTarget>& vertexInAttrs,
-    const std::initializer_list<AttributeTarget>& fragmentOutAttrs);
-
->>>>>>> e7feddaea5c54ed5a674a840ddd7ddbf186c6641
 bool CompileComputeProgram(GLuint& result, const std::string& source, const std::string& name);
 
 }
